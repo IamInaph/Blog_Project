@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Delete Post{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'blog/styles.css' %}" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{% url 'post_list' %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'post_create' %}">Create Post</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>Delete Post</h1>
+      <p>Are you sure you want to delete the post "{{ post.title }}"?</p>
+      <form action="{% url 'post_delete' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        <a href="{% url 'post_detail' post.id %}">Cancel</a>
+      </form>
+    </main>
+    <footer>
+      <p>&copy; 2024 My Blog</p>
+    </footer>
+  </body>
+</html>
